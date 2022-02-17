@@ -23,58 +23,46 @@ end
 puts 'generation 1'
 show_m(x, y, m)
 
+neighbors = Matrix.build(x,y) {0}
 x.times do |i|
   y.times do |j|   
-    neighbors = 0
     unless (i==0 || j==0)
-     neighbors += m[i-1,j-1]
+     neighbors[i,j] += m[i-1,j-1]
     end
     unless i==0
-      neighbors += m[i-1,j] 
+      neighbors[i,j] += m[i-1,j] 
     end
     unless j==y-1 || i==0
-    neighbors += m[i-1,j+1] 
+      neighbors[i,j] += m[i-1,j+1] 
     end
     unless j==0
-     neighbors += m[i,j-1] 
+     neighbors[i,j] += m[i,j-1] 
     end
     unless j==y-1
-    neighbors += m[i,j+1] 
+      neighbors[i,j] += m[i,j+1] 
     end
     unless i==x-1 || j==0
-    neighbors += m[i+1,j-1] 
+      neighbors[i,j] += m[i+1,j-1] 
     end
     unless i==x-1
-    neighbors += m[i+1,j] 
+      neighbors[i,j] += m[i+1,j] 
     end
     unless i==x-1 || j==y-1
-    neighbors += m[i+1,j+1] 
+      neighbors[i,j] += m[i+1,j+1] 
     end
-    print neighbors
+    # print neighbors[i,j]
   end
-  puts ""
+  #puts ""
+end
+x.times do |i|
+  y.times do |j|   
+    if(neighbors[i,j]<2 || neighbors[i,j]>3)
+      m[i,j] = 0    
+    elsif(neighbors[i,j]==3)
+      m[i,j] = 1
+    end
+  end
 end
 
-
-# m[i-1, j-1] 
-# m[i-1, j] 
-# m[i-1, j+1]
-# m[i, j-1]    
-# m[ij]
-# m[ij+1]
-# m[i+1j-1]    
-# m[i+1j]  
-# m[i+1j+1]
-
-# if(i==0 && j==0)
-#   neighbors += m[i+1,j]
-#   neighbors += m[i+1,j+1]
-#   neighbors += m[i,j+1]
-# elsif(i==0)
-#   neighbors = 0
-#   neighbors += m[i+1,j]
-#   neighbors += m[i-1,j]
-#   neighbors += m[i-1,j+1]
-#   neighbors += m[i,j+1]
-#   neighbors += m[i+1,j+1]
-# end
+puts 'generation 2'
+show_m(x, y, m)
